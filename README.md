@@ -9,11 +9,11 @@
 
 ## Penyelesaian
 
-1. Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian [sebagai berikut.](https://docs.google.com/spreadsheets/d/1OqwQblR_mXurPI4gEGqUe7v0LSr1yJViGVEzpMEm2e8/edit?usp=sharing) Folder topologi dapat diakses pada [drive berikut](https://drive.google.com/drive/folders/1Ij9J1HdIW4yyPEoDqU1kAwTn_iIxg3gk?usp=sharing)
+1. Yudistira (Master) akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian [sebagai berikut.](https://docs.google.com/spreadsheets/d/1OqwQblR_mXurPI4gEGqUe7v0LSr1yJViGVEzpMEm2e8/edit?usp=sharing) Folder topologi dapat diakses pada [drive berikut](https://drive.google.com/drive/folders/1Ij9J1HdIW4yyPEoDqU1kAwTn_iIxg3gk?usp=sharing)
     
     ![Untitled](img/Untitled.png)
     
-    1. Pandudewanata
+    1. Pandudewanata (Server)
         
         ```jsx
         auto eth0
@@ -35,7 +35,7 @@
         	netmask 255.255.255.0
         ```
         
-    2. Nakula
+    2. Nakula (Client)
         
         ```jsx
         auto eth0
@@ -45,7 +45,7 @@
         	gateway 192.202.1.1
         ```
         
-    3. Sadewa
+    3. Sadewa (Client)
         
         ```jsx
         auto eth0
@@ -55,7 +55,7 @@
         	gateway 192.202.1.1
         ```
         
-    4. Yudhistira
+    4. Yudistira (Master)
         
         ```jsx
         auto eth0
@@ -65,7 +65,7 @@
         	gateway 192.202.1.1
         ```
         
-    5. Werkudara
+    5. Werkudara (Slave)
         
         ```jsx
         auto eth0
@@ -75,7 +75,7 @@
         	gateway 192.202.1.1
         ```
         
-    6. Arjuna
+    6. Arjuna (WebServer)
         
         ```jsx
         auto eth0
@@ -85,7 +85,7 @@
         	gateway 192.202.2.1
         ```
         
-    7. Prabukusuma
+    7. Prabukusuma (Worker)
         
         ```jsx
         auto eth0
@@ -95,7 +95,7 @@
         	gateway 192.202.3.1
         ```
         
-    8. Abimanyu
+    8. Abimanyu (WebServer-Worker)
         
         ```jsx
         auto eth0
@@ -105,7 +105,7 @@
         	gateway 192.202.3.1
         ```
         
-    9. Wisanggeni
+    9. Wisanggeni (Worker)
         
         ```jsx
         auto eth0
@@ -190,7 +190,7 @@
     service bind9 restart
     ```
     
-    Test di node lain di sini kami menggunakan node Nakula
+    Test di node lain di sini kami menggunakan node Nakula (Client)
     
     ```jsx
     echo "
@@ -237,7 +237,7 @@
     service bind9 restart
     ```
     
-    Test di node Nakula
+    Test di node Nakula (Client)
     
     ```jsx
     echo "
@@ -330,7 +330,7 @@
     service bind9 restart
     ```
     
-    Testing di node nakula
+    Testing di node Nakula (Client)
     
     ```jsx
     echo "
@@ -350,7 +350,7 @@
     ![Untitled](img/Untitled%205.png)
     
 6. Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga Werkudara sebagai DNS Slave untuk domain utama.
-    - pada Yudhistira
+    - pada Yudistira (Master)
         
         ```jsx
         echo '
@@ -376,7 +376,7 @@
         service bind9 restart
         ```
         
-    - pada Werkudara
+    - pada Werkudara (Slave)
         
         ```jsx
         apt-get update
@@ -393,7 +393,7 @@
         ```
         
     
-    Test `stop` pada yudhistira dan coba di node lain
+    Test `stop` pada Yudistira (Master) dan coba di node lain
     
     ```jsx
     service bind9 stop
@@ -401,7 +401,7 @@
     
     ![Untitled](img/Untitled%206.png)
     
-    Coba akses dari node Nakula
+    Coba akses dari node Nakula (Client)
     
     ```jsx
     echo "
@@ -415,7 +415,7 @@
     ![Untitled](img/Untitled%207.png)
     
 7. Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu **baratayuda.abimanyu.yyy.com** dengan alias **www.baratayuda.abimanyu.yyy.com** yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
-    - pada Yudhistira
+    - pada Yudistira (Master)
         
         ```jsx
         echo "
@@ -461,7 +461,7 @@
         service bind9 restart
         ```
         
-    - Pada Werkudara
+    - Pada Werkudara (Slave)
         
         ```jsx
         echo '
@@ -520,7 +520,7 @@
         ```
         
     
-    Coba akses dari node Nakula
+    Coba akses dari node Nakula (Client)
     
     ```jsx
     echo "
@@ -540,7 +540,7 @@
     ![Untitled](img/Untitled%208.png)
     
 8. Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdomain melalui Werkudara dengan akses **rjp.baratayuda.abimanyu.yyy.com** dengan alias **www.rjp.baratayuda.abimanyu.yyy.com** yang mengarah ke Abimanyu.
-    - Yudhistira
+    - Yudistira (Master)
         
         ```jsx
         echo "
@@ -570,9 +570,9 @@
         service bind9 restart
         ```
         
-    - Werkudara
+    - Werkudara (Slave)
     
-    Coba akses dari node Nakula
+    Coba akses dari node Nakula (Client)
     
     ```jsx
     echo "
@@ -750,7 +750,7 @@
         ```
         
     
-    Ketika dicoba di node Nakula `lynx http:/www.arjuna.d22.com` muncul seperti ini :
+    Ketika dicoba di node Nakula (Client) `lynx http:/www.arjuna.d22.com` muncul seperti ini :
     
     ![Untitled](img/Untitled%2011.png)
     
@@ -813,7 +813,7 @@
     service apache2 restart
     ```
     
-    - Dalam node Nakula
+    - Dalam node Nakula (Client)
     
     ```jsx
     echo '
@@ -862,7 +862,7 @@
         service apache2 restart
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx abimanyu.d22.com/home
@@ -891,7 +891,7 @@
         service apache2 restart
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx abimanyu.d22.com/home
@@ -931,7 +931,7 @@
         service apache2 restart
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx parikesit.abimanyu.d22.com/public
@@ -977,7 +977,7 @@
         service apache2 restart
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx parikesit.abimanyu.d22.com/eror
@@ -1022,7 +1022,7 @@
         service apache2 restart
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx parikesit.abimanyu.d22.com/js
@@ -1075,7 +1075,7 @@
         service apache2 restart
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx rjp.baratayuda.abimanyu.d22.com:14000
@@ -1121,7 +1121,7 @@
         
         ![Untitled](img/Untitled%2023.png)
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx rjp.baratayuda.abimanyu.d22.com:14000
@@ -1137,7 +1137,7 @@
         ![Untitled](img/Untitled%2027.png)
         
 19. Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihkan ke **[www.abimanyu.yyy.com](http://www.abimanyu.yyy.com/) (alias)**
-    - Yudhistira, Menambahkan default ketika mengakses IP `abimanyu`
+    - Yudistira (Master), Menambahkan default ketika mengakses IP `abimanyu`
         
         ```jsx
         echo "
@@ -1164,7 +1164,7 @@
         " > /etc/bind/jarkom/abimanyu.d22.com
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx 192.202.3.3
@@ -1199,7 +1199,7 @@
                   Options -Indexes
           </Directory>
         
-        	<Directory /var/www/parikesit.abimanyu.a09>
+        	<Directory /var/www/parikesit.abimanyu.d22>
                   Options +FollowSymLinks -Multiviews
                   AllowOverride All
           </Directory>
@@ -1219,7 +1219,7 @@
         service apache2 restart
         ```
         
-    - Pada node Nakula
+    - Pada node Nakula (Client)
         
         ```jsx
         lynx parikesit.abimanyu.d22.com/public/images/abimanyu-student.jpg

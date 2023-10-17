@@ -391,6 +391,10 @@
             masters { 192.202.1.4; }; 
             file "/var/lib/bind/arjuna.d22.com";
         };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1d96218031c57199808165912e9d5f2b034cdb37
         zone "abimanyu.d22.com" {
             type slave;
             masters { 192.202.1.4; }; 
@@ -417,6 +421,7 @@
     nameserver 192.202.1.5 # IP werkudara
     " > /etc/resolv.conf
     
+    ping arjuna.d22.com -c 5
     ping abimanyu.d22.com -c 5
     ```
     
@@ -490,9 +495,15 @@
         ' > /etc/bind/named.conf.options
         
         echo '
-        zone "baratayuda**.**abimanyu.d22.com" {
+        zone "baratayuda.abimanyu.d22.com" {
             type master;
             file "/etc/bind/baratayuda/baratayuda.abimanyu.d22.com";
+        };
+
+        zone "arjuna.d22.com" {
+            type slave;
+            masters { 192.202.1.4; }; 
+            file "/var/lib/bind/arjuna.d22.com";
         };
         
         zone "abimanyu.d22.com" {
@@ -548,37 +559,30 @@
     ![Untitled](img/Untitled%208.png)
     
 8. Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdomain melalui Werkudara dengan akses **rjp.baratayuda.abimanyu.yyy.com** dengan alias **www.rjp.baratayuda.abimanyu.yyy.com** yang mengarah ke Abimanyu.
-    - Yudistira (Master)
-        
-        ```jsx
-        echo "
-        ;
-        ; BIND data file for local loopback interface
-        ;
-        \$TTL    604800
-        @       IN      SOA     abimanyu.d22.com. root.abimanyu.d22.com. (
-                                      2         ; Serial
-                                 604800         ; Refresh
-                                  86400         ; Retry
-                                2419200         ; Expire
-                                 604800 )       ; Negative Cache TTL
-        ;
-        @                       IN      NS      abimanyu.d22.com.
-        @                       IN      A       192.202.3.3         ; IP abimanyu
-        www                     IN      CNAME   abimanyu.d22.com.   ; Alias
-        parikesit               IN      A       192.202.3.3         ; subdomain abimanyu
-        www.parikesit           IN      CNAME   parikesit           ; Alias
-        ns1                     IN      A       192.202.1.5         ; IP Werkudara
-        baratayuda              IN      NS      ns1
-        www.baratayuda          IN      CNAME   baratayuda          ; Alias
-        www.**rjp**.baratayuda      IN      CNAME   baratayuda          ; Alias
-        @                       IN      AAAA    ::1
-        " > /etc/bind/jarkom/abimanyu.d22.com
-        
-        service bind9 restart
-        ```
-        
     - Werkudara (Slave)
+    ```jsx
+    echo '
+    ;
+    ; BIND data file for local loopback interface
+    ;
+    $TTL    604800
+    @               IN      SOA     baratayuda.abimanyu.d22.com. root.baratayuda.abimanyu.d22.com. (
+    		         3         ; Serial
+    		    604800         ; Refresh
+    		    86400          ; Retry
+    		    2419200        ; Expire
+    		    604800 )       ; Negative Cache TTL
+    ;
+    @               IN      NS      baratayuda.abimanyu.d22.com.
+    @               IN      A       192.202.3.3                    ; IP abimanyu
+    www             IN      CNAME   baratayuda.abimanyu.d22.com.
+    rjp             IN      A       192.202.3.3                    ; IP abimanyu
+    www.rjp         IN      CNAME   rjp.baratayuda.abimanyu.d22.com.
+    @               IN      AAAA    ::1
+    ' > /etc/bind/baratayuda/baratayuda.abimanyu.d22.com
+    
+    service bind9 restart
+    ```
     
     Coba akses dari node Nakula (Client)
     

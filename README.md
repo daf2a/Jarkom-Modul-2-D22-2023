@@ -391,10 +391,6 @@
             masters { 192.202.1.4; }; 
             file "/var/lib/bind/arjuna.d22.com";
         };
-<<<<<<< HEAD
-=======
-
->>>>>>> 1d96218031c57199808165912e9d5f2b034cdb37
         zone "abimanyu.d22.com" {
             type slave;
             masters { 192.202.1.4; }; 

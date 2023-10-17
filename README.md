@@ -356,9 +356,9 @@
         echo '
         zone "arjuna.d22.com" {
                 type master;
-                notify yes;
+        		notify yes;
         		also-notify { 192.202.1.5; }; 
-                allow-transfer { 192.202.1.5; };
+                allow-transfer { 192.202.1.5; }; 
                 file "/etc/bind/jarkom/arjuna.d22.com";
         };
         
@@ -391,7 +391,6 @@
             masters { 192.202.1.4; }; 
             file "/var/lib/bind/arjuna.d22.com";
         };
-
         zone "abimanyu.d22.com" {
             type slave;
             masters { 192.202.1.4; }; 
@@ -855,10 +854,10 @@
             ServerAlias www.abimanyu.d22.com 
         
         		<Directory /var/www/abimanyu.d22/home>
-                  Options +Indexes +FollowSymLinks -Multiviews
+                    Options +Indexes +FollowSymLinks -Multiviews
         					AllowOverride All
         	        Require all granted
-        	  </Directory>   
+        	    </Directory>   
         		Alias "/home" "/var/www/abimanyu.d22/index.php/home"
         
             #LogLevel info ssl:warn
@@ -921,17 +920,14 @@
         
         	<Directory /var/www/parikesit.abimanyu.d22/public>
                   Options +Indexes
-          </Directory>
+            </Directory>
         
-          <Directory /var/www/parikesit.abimanyu.d22/secret>
+            <Directory /var/www/parikesit.abimanyu.d22/secret>
                   Options -Indexes
-          </Directory>
-        
-        	Alias "/public" "/var/www/parikesit.abimanyu.d22/public"
-          Alias "/secret" "/var/www/parikesit.abimanyu.d22/secret"
-        
-          ErrorLog ${APACHE_LOG_DIR}/error.log
-          CustomLog ${APACHE_LOG_DIR}/access.log combined
+            </Directory>
+
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            CustomLog ${APACHE_LOG_DIR}/access.log combined
         </VirtualHost>
         ' > /etc/apache2/sites-available/parikesit.abimanyu.d22.com.conf
         
@@ -964,20 +960,17 @@
         
         	<Directory /var/www/parikesit.abimanyu.d22/public>
                   Options +Indexes
-          </Directory>
+            </Directory>
         
-          <Directory /var/www/parikesit.abimanyu.d22/secret>
+            <Directory /var/www/parikesit.abimanyu.d22/secret>
                   Options -Indexes
-          </Directory>
+            </Directory>
         
-        	Alias "/public" "/var/www/parikesit.abimanyu.d22/public"
-          Alias "/secret" "/var/www/parikesit.abimanyu.d22/secret"
-        
-          ErrorDocument 404 /error/404.html
+            ErrorDocument 404 /error/404.html
         	ErrorDocument 403 /error/403.html
         
-          ErrorLog ${APACHE_LOG_DIR}/error.log
-          CustomLog ${APACHE_LOG_DIR}/access.log combined
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            CustomLog ${APACHE_LOG_DIR}/access.log combined
         </VirtualHost>
         ' > /etc/apache2/sites-available/parikesit.abimanyu.d22.com.conf
         
@@ -1008,17 +1001,15 @@
         
         	<Directory /var/www/parikesit.abimanyu.d22/public>
                   Options +Indexes
-          </Directory>
+            </Directory>
         
-          <Directory /var/www/parikesit.abimanyu.d22/secret>
+            <Directory /var/www/parikesit.abimanyu.d22/secret>
                   Options -Indexes
-          </Directory>
+            </Directory>
         
-        	Alias "/public" "/var/www/parikesit.abimanyu.d22/public"
-          Alias "/secret" "/var/www/parikesit.abimanyu.d22/secret"
         	Alias "/js" "/var/www/parikesit.abimanyu.d22/public/js"
         
-          ErrorDocument 404 /error/404.html
+            ErrorDocument 404 /error/404.html
         	ErrorDocument 403 /error/403.html
         
           ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -1112,10 +1103,10 @@
                   AuthName "Authentication Required"
                   AuthUserFile /etc/apache2/.htpasswd
                   Require valid-user
-          </Directory>
+            </Directory>
         
-          ErrorDocument 404 /error/404.html
-          ErrorDocument 403 /error/403.html
+            ErrorDocument 404 /error/404.html
+            ErrorDocument 403 /error/403.html
         
           ErrorLog ${APACHE_LOG_DIR}/error.log
           CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -1200,23 +1191,22 @@
           ServerName parikesit.abimanyu.d22.com
           ServerAlias www.parikesit.abimanyu.d22.com
         
-        	<Directory /var/www/parikesit.abimanyu.d22/public>
+            <Directory /var/www/parikesit.abimanyu.d22/public>
                   Options +Indexes
-          </Directory>
+            </Directory>
         
-          <Directory /var/www/parikesit.abimanyu.d22/secret>
+            <Directory /var/www/parikesit.abimanyu.d22/secret>
                   Options -Indexes
-          </Directory>
+            </Directory>
         
         	<Directory /var/www/parikesit.abimanyu.d22>
                   Options +FollowSymLinks -Multiviews
                   AllowOverride All
-          </Directory>
-        	Alias "/public" "/var/www/parikesit.abimanyu.d22/public"
-          Alias "/secret" "/var/www/parikesit.abimanyu.d22/secret"
+            </Directory>
+
         	Alias "/js" "/var/www/parikesit.abimanyu.d22/public/js"
         
-          ErrorDocument 404 /error/404.html
+            ErrorDocument 404 /error/404.html
         	ErrorDocument 403 /error/403.html
         
           ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -1236,3 +1226,6 @@
         ```
         
         ![Untitled](img/Untitled%2029.png)
+
+## Kendala Pengerjaan
+- Pada nomor 14, saya telah melakukan option saat saya melakukan -indexes untuk `/secret` dan +indexes untuk `/public`, supaya folder /public hanya dapat melakukan *directory listing* sedangkan pada folder /secret tidak dapat diakses *(403 Forbidden)*. Namun saat di test, konfigurasi tersebut tidak berjalan dengan baik. Saya telah mencoba2 untuk mengubah konfigurasi tersebut --yang secara syntaxis benar, namun tetap tidak berjalan dengan baik. 
